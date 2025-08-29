@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ملاحظاتي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .notes-container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .notes-container h2 {
+      margin-bottom: 15px;
+      text-align: center;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      height: 250px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 16px;
+      resize: none;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: goldenrod;
+    }
+    .save-status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: green;
+      text-align: left;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: goldenrod;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background: #b8860b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notes-container">
+    <h2>📝 ملاحظاتي</h2>
+    <textarea id="notes" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+    <p class="save-status" id="status">✅ محفوظ تلقائياً</p>
+    <button class="back-btn" id="goBack">🔙 رجوع للصفحة السابقة</button>
+  </div>
+
+  <script>
+    const notesArea = document.getElementById("notes");
+    const status = document.getElementById("status");
+
+    // تحميل الملاحظات عند فتح الصفحة
+    notesArea.value = localStorage.getItem("studentNotes") || "";
+
+    // حفظ أي تعديل أوتوماتيك
+    notesArea.addEventListener("input", () => {
+      localStorage.setItem("studentNotes", notesArea.value);
+      status.textContent = "✅ تم الحفظ";
+      setTimeout(() => {
+        status.textContent = "✅ محفوظ تلقائياً";
+      }, 1500);
+    });
+
+    // زر الرجوع للصفحة اللي كان فيها
+    document.getElementById("goBack").addEventListener("click", () => {
+      if (document.referrer) {
+        window.location.href = document.referrer; // يرجع للصفحة اللي جاي منها
+      } else {
+        window.history.back(); // لو مفيش referrer يرجع خطوة ورا
+      }
+    });
+  </script>
+
+</body>
+</html>

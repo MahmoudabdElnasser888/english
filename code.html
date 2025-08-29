@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>دخول بالكود</title>
+  <style>
+   * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #6e8efb, #a777e3);
+  overflow-x: hidden;
+  animation: fadeInBg 2s ease;
+}
+
+h2 {
+  margin-bottom: 25px;
+  font-size: 2.2rem;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  animation: fadeInDown 1s ease-in-out;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+input {
+  padding: 14px 20px;
+  width: 280px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+input:focus {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+button {
+  padding: 14px 35px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #00ff37, #097fee);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: rgba(255,255,255,0.2);
+  transform: rotate(45deg);
+  transition: 0.6s;
+}
+
+button:hover::before {
+  top: -80%;
+  left: -80%;
+}
+
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #00ff37, 0 0 40px #097fee;
+}
+
+.error {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #ff5555;
+  min-height: 22px;
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+footer a {
+  color: goldenrod;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+footer i {
+  font-size: 1.2rem;
+  color: #25d366;
+  transition: transform 0.3s;
+}
+
+footer i:hover {
+  transform: scale(1.2);
+}
+
+/* 🔥 Animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInBg {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
+}
+</style>
+</head>
+<body>
+  <h2>ادخل الكود</h2>
+  <input type="text" id="codeInput" placeholder="ادخل الكود هنا">
+  <button onclick="checkCode()">دخول</button>
+
+  <script type="module">
+    // 1) استدعاء المكتبات
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    // 2) إعدادات مشروعك (دي اللي نسختها من Firebase Console)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBLJu2xOohBOsWXg7KDB2SAsf7Dw-CDlmE",
+      authDomain: "english-c480a.firebaseapp.com",
+      projectId: "english-c480a",
+      storageBucket: "english-c480a.firebasestorage.app",
+      messagingSenderId: "935416118170",
+      appId: "1:935416118170:web:b58880763ffd5843ca1823",
+      measurementId: "G-ZB5TKQTY5Z"
+    };
+
+    // 3) تشغيل Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    // 4) دخول Anonymous (عشان قواعد الأمان)
+    signInAnonymously(auth).catch((error) => {
+      console.error("Auth error:", error);
+    });
+
+    // 5) دالة التحقق من الكود
+    async function checkCode() {
+      let inputCode = document.getElementById("codeInput").value.trim();
+
+      // ندور على الكود في قاعدة البيانات
+      const q = query(collection(db, "codes"), where("code", "==", inputCode));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        alert("❌ الكود غير صحيح");
+        return;
+      }
+
+      querySnapshot.forEach(async (docSnap) => {
+        const data = docSnap.data();
+
+        if (data.used === false) {
+          // نعلم الكود إنه مستخدم
+          await updateDoc(doc(db, "codes", docSnap.id), { used: true });
+
+          alert("✅ تم الدخول");
+          window.location.href = data.redirect; // يروح للصفحة اللي انت كاتبها في redirect
+        } else {
+          alert("❌ الكود مستخدم قبل كده");
+        }
+      });
+    }
+
+    // عشان الزرار يشتغل
+    window.checkCode = checkCode;
+  </script>
+</body>
+</html>
