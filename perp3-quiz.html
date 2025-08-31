@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <style>
+    body {
+      font-family: Tahoma, sans-serif;
+      margin: 0;
+      background: linear-gradient(120deg, #6e8efb, #a777e3);
+      color: #333;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(80, 78, 78, 0.4);
+      backdrop-filter: blur(10px);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: rgb(255, 255, 255);
+    }
+    .container {
+      max-width: 800px;
+      margin: 100px auto 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 25px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+    }
+    .question h3 {
+      margin: 0 0 10px;
+    }
+    .option {
+      display: block;
+      margin: 8px 0;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      transition: 0.3s;
+    }
+    .option input { margin-left: 8px; }
+    .option.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+    .option.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    #showAnswers {background: linear-gradient(120deg, #345ce0, #8848d6);  color: white; }
+    .result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quiz</h1>
+  </header>
+
+  <div class="container">
+
+    <!-- سؤال 1 -->
+    <div class="question" data-correct="3">
+      <h3>1- .....So much homework usually makes students feel</h3>
+      <label class="option"><input type="radio" name="q1" value="1">strange</label>
+      <label class="option"><input type="radio" name="q1" value="2">happy</label>
+      <label class="option"><input type="radio" name="q1" value="3">stressed</label>
+      <label class="option"><input type="radio" name="q1" value="4">honest</label>
+    </div>
+
+    <!-- سؤال 2 -->
+    <div class="question" data-correct="7">
+      <h3>2- People usually ...... those who do something useful  scientists</h3>
+      <label class="option"><input type="radio" name="q2" value="5">hurt</label>
+      <label class="option"><input type="radio" name="q2" value="6">damage</label>
+      <label class="option"><input type="radio" name="q2" value="7">value</label>
+      <label class="option"><input type="radio" name="q2" value="8">pollute</label>
+    </div>
+
+    <!-- سؤال 3 -->
+    <div class="question" data-correct="10">
+      <h3>3- What.... do you think Leila faced</h3>
+      <label class="option"><input type="radio" name="q3" value="9">colors</label>
+      <label class="option"><input type="radio" name="q3" value="10">challenges</label>
+      <label class="option"><input type="radio" name="q3" value="11">confidence</label>
+      <label class="option"><input type="radio" name="q3" value="12">shapes</label>
+    </div>
+
+    <!-- سؤال 4 -->
+    <div class="question" data-correct="16">
+      <h3>4- My car......lately</h3>
+      <label class="option"><input type="radio" name="q4" value="13">repaired</label>
+      <label class="option"><input type="radio" name="q4" value="14">has repaired</label>
+      <label class="option"><input type="radio" name="q4" value="15">was repairing</label>
+      <label class="option"><input type="radio" name="q4" value="16">has been repaired</label>
+    </div>
+
+    <!-- سؤال 5 -->
+    <div class="question" data-correct="19">
+      <h3>5- The museum ........ by many touristis</h3>
+      <label class="option"><input type="radio" name="q5" value="17">has visited</label>
+      <label class="option"><input type="radio" name="q5" value="18">visited</label>
+      <label class="option"><input type="radio" name="q5" value="19">has been visited</label>
+      <label class="option"><input type="radio" name="q5" value="20">was visiting</label>
+    </div>
+
+    <!-- سؤال 6 -->
+    <div class="question" data-correct="21">
+      <h3>6- Thay....... to alex</h3>
+      <label class="option"><input type="radio" name="q6" value="21">have never been</label>
+      <label class="option"><input type="radio" name="q6" value="22">has never been</label>
+      <label class="option"><input type="radio" name="q6" value="23">never has</label>
+      <label class="option"><input type="radio" name="q6" value="24">never have</label>
+    </div>
+
+    <!-- سؤال 7 -->
+    <div class="question" data-correct="26">
+      <h3>7- He ....... the room</h3>
+      <label class="option"><input type="radio" name="q7" value="25">just left</label>
+      <label class="option"><input type="radio" name="q7" value="26">has just left</label>
+      <label class="option"><input type="radio" name="q7" value="27">just leaves</label>
+      <label class="option"><input type="radio" name="q7" value="28">just leaving</label>
+    </div>
+
+    <!-- سؤال 8 -->
+    <div class="question" data-correct="29">
+      <h3>8- we......... in this city since 2017</h3>
+      <label class="option"><input type="radio" name="q8" value="29">have lived</label>
+      <label class="option"><input type="radio" name="q8" value="30">lived</label>
+      <label class="option"><input type="radio" name="q8" value="31">were living</label>
+      <label class="option"><input type="radio" name="q8" value="32">were lived</label>
+    </div>
+
+    <!-- سؤال 9 -->
+    <div class="question" data-correct="35">
+      <h3>9- Ahmed ....... that move yet</h3>
+      <label class="option"><input type="radio" name="q9" value="33">didn't see</label>
+      <label class="option"><input type="radio" name="q9" value="34">dosen't see</label>
+      <label class="option"><input type="radio" name="q9" value="35">hasn't seen</label>
+      <label class="option"><input type="radio" name="q9" value="36">wasn't seen</label>
+    </div>
+
+    <!-- سؤال 10 -->
+    <div class="question" data-correct="40">
+      <h3>10- We ...... friends since primary school</h3>
+      <label class="option"><input type="radio" name="q10" value="37">were</label>
+      <label class="option"><input type="radio" name="q10" value="38">are</label>
+      <label class="option"><input type="radio" name="q10" value="39">been</label>
+      <label class="option"><input type="radio" name="q10" value="40">have been</label>
+    </div>
+
+    <div class="buttons">
+      <button id="showAnswers">إظهار الإجابات</button>
+    </div>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById("showAnswers").addEventListener("click", function() {
+      let questions = document.querySelectorAll(".question");
+      let correctCount = 0;
+
+      questions.forEach((q, index) => {
+        const correctAnswer = parseInt(q.dataset.correct);
+        const selected = document.querySelector(`input[name="q${index+1}"]:checked`);
+
+        q.querySelectorAll(".option").forEach(opt => {
+          const val = parseInt(opt.querySelector("input").value);
+          if (val === correctAnswer) {
+            opt.classList.add("correct");
+          }
+          if (selected && parseInt(selected.value) === val && val !== correctAnswer) {
+            opt.classList.add("wrong");
+          }
+        });
+
+        if (selected && parseInt(selected.value) === correctAnswer) {
+          correctCount++;
+        }
+      });
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML =`درجتك: ${correctCount} من ${questions.length}`;
+    });
+  </script>
+</body>
+</html>
